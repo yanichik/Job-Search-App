@@ -16,6 +16,10 @@
 		84AE214D2C93546B00C2CC6F /* UnibuiAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE214C2C93546B00C2CC6F /* UnibuiAssignmentTests.swift */; };
 		84AE21572C93546B00C2CC6F /* UnibuiAssignmentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE21562C93546B00C2CC6F /* UnibuiAssignmentUITests.swift */; };
 		84AE21592C93546B00C2CC6F /* UnibuiAssignmentUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE21582C93546B00C2CC6F /* UnibuiAssignmentUITestsLaunchTests.swift */; };
+		84AE22032C98FD0800C2CC6F /* CSVDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE22022C98FD0800C2CC6F /* CSVDataManager.swift */; };
+		84AE22072C98FFC100C2CC6F /* jobsMock.csv in Resources */ = {isa = PBXBuildFile; fileRef = 84AE22062C98FFC100C2CC6F /* jobsMock.csv */; };
+		84AE220A2C9900F400C2CC6F /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE22092C9900F400C2CC6F /* Job.swift */; };
+		84AE220D2C9A242100C2CC6F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE220C2C9A242100C2CC6F /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,10 @@
 		84AE21522C93546B00C2CC6F /* UnibuiAssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnibuiAssignmentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84AE21562C93546B00C2CC6F /* UnibuiAssignmentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnibuiAssignmentUITests.swift; sourceTree = "<group>"; };
 		84AE21582C93546B00C2CC6F /* UnibuiAssignmentUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnibuiAssignmentUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		84AE22022C98FD0800C2CC6F /* CSVDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVDataManager.swift; sourceTree = "<group>"; };
+		84AE22062C98FFC100C2CC6F /* jobsMock.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jobsMock.csv; sourceTree = "<group>"; };
+		84AE22092C9900F400C2CC6F /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
+		84AE220C2C9A242100C2CC6F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +106,11 @@
 		84AE21352C93546A00C2CC6F /* UnibuiAssignment */ = {
 			isa = PBXGroup;
 			children = (
+				84AE220B2C9900FC00C2CC6F /* Models */,
+				84AE22082C98FFD700C2CC6F /* Mocks */,
 				84AE21362C93546A00C2CC6F /* UnibuiAssignmentApp.swift */,
-				84AE21382C93546A00C2CC6F /* ContentView.swift */,
+				84AE22042C98FD0E00C2CC6F /* Views */,
+				84AE22052C98FD3200C2CC6F /* Utilities */,
 				84AE213A2C93546B00C2CC6F /* Assets.xcassets */,
 				84AE213F2C93546B00C2CC6F /* Persistence.swift */,
 				84AE21412C93546B00C2CC6F /* UnibuiAssignment.xcdatamodeld */,
@@ -131,6 +142,39 @@
 				84AE21582C93546B00C2CC6F /* UnibuiAssignmentUITestsLaunchTests.swift */,
 			);
 			path = UnibuiAssignmentUITests;
+			sourceTree = "<group>";
+		};
+		84AE22042C98FD0E00C2CC6F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84AE21382C93546A00C2CC6F /* ContentView.swift */,
+				84AE220C2C9A242100C2CC6F /* DetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		84AE22052C98FD3200C2CC6F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				84AE22022C98FD0800C2CC6F /* CSVDataManager.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		84AE22082C98FFD700C2CC6F /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				84AE22062C98FFC100C2CC6F /* jobsMock.csv */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		84AE220B2C9900FC00C2CC6F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				84AE22092C9900F400C2CC6F /* Job.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +283,7 @@
 			files = (
 				84AE213E2C93546B00C2CC6F /* Preview Assets.xcassets in Resources */,
 				84AE213B2C93546B00C2CC6F /* Assets.xcassets in Resources */,
+				84AE22072C98FFC100C2CC6F /* jobsMock.csv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,8 +309,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				84AE21402C93546B00C2CC6F /* Persistence.swift in Sources */,
+				84AE220A2C9900F400C2CC6F /* Job.swift in Sources */,
 				84AE21392C93546A00C2CC6F /* ContentView.swift in Sources */,
+				84AE220D2C9A242100C2CC6F /* DetailView.swift in Sources */,
 				84AE21432C93546B00C2CC6F /* UnibuiAssignment.xcdatamodeld in Sources */,
+				84AE22032C98FD0800C2CC6F /* CSVDataManager.swift in Sources */,
 				84AE21372C93546A00C2CC6F /* UnibuiAssignmentApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
