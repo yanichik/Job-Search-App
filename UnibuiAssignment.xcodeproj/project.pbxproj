@@ -20,6 +20,7 @@
 		84AE22072C98FFC100C2CC6F /* jobsMock.csv in Resources */ = {isa = PBXBuildFile; fileRef = 84AE22062C98FFC100C2CC6F /* jobsMock.csv */; };
 		84AE220A2C9900F400C2CC6F /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE22092C9900F400C2CC6F /* Job.swift */; };
 		84AE220D2C9A242100C2CC6F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE220C2C9A242100C2CC6F /* DetailView.swift */; };
+		84AE22102C9CD18500C2CC6F /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AE220F2C9CD18500C2CC6F /* DetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		84AE22062C98FFC100C2CC6F /* jobsMock.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jobsMock.csv; sourceTree = "<group>"; };
 		84AE22092C9900F400C2CC6F /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 		84AE220C2C9A242100C2CC6F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		84AE220F2C9CD18500C2CC6F /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				84AE22082C98FFD700C2CC6F /* Mocks */,
 				84AE21362C93546A00C2CC6F /* UnibuiAssignmentApp.swift */,
 				84AE22042C98FD0E00C2CC6F /* Views */,
+				84AE220E2C9CD15100C2CC6F /* ViewModels */,
 				84AE22052C98FD3200C2CC6F /* Utilities */,
 				84AE213A2C93546B00C2CC6F /* Assets.xcassets */,
 				84AE213F2C93546B00C2CC6F /* Persistence.swift */,
@@ -175,6 +178,14 @@
 				84AE22092C9900F400C2CC6F /* Job.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		84AE220E2C9CD15100C2CC6F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				84AE220F2C9CD18500C2CC6F /* DetailViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +326,7 @@
 				84AE21432C93546B00C2CC6F /* UnibuiAssignment.xcdatamodeld in Sources */,
 				84AE22032C98FD0800C2CC6F /* CSVDataManager.swift in Sources */,
 				84AE21372C93546A00C2CC6F /* UnibuiAssignmentApp.swift in Sources */,
+				84AE22102C9CD18500C2CC6F /* DetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

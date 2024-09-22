@@ -37,18 +37,19 @@ struct Job: Identifiable {
     
     // background image displayed based on job type
     var type: JobType {
-        switch jobTitle {
-        case software.first(where: {jobTitle.contains($0) == true}):
+        let lowercasedJobTitle = jobTitle.lowercased()
+        switch lowercasedJobTitle {
+        case _ where !(software.filter {lowercasedJobTitle.contains($0)}.isEmpty):
             return .software
-        case data.first(where: {jobTitle.contains($0) == true}):
+        case _ where !(data.filter {lowercasedJobTitle.contains($0)}.isEmpty):
             return .data
-        case writer.first(where: {jobTitle.contains($0) == true}):
+        case _ where !(writer.filter {lowercasedJobTitle.contains($0)}.isEmpty):
             return .writer
-        case marketing.first(where: {jobTitle.contains($0) == true}):
+        case _ where !(marketing.filter {lowercasedJobTitle.contains($0)}.isEmpty):
             return .marketing
-        case support.first(where: {jobTitle.contains($0) == true}):
+        case _ where !(support.filter {lowercasedJobTitle.contains($0)}.isEmpty):
             return .support
-        case hr.first(where: {jobTitle.contains($0) == true}):
+        case _ where !(hr.filter {lowercasedJobTitle.contains($0)}.isEmpty):
             return .hr
         default:
             return .other

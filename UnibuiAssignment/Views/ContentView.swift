@@ -20,47 +20,15 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            List(csvDataManager.jobs) { job in
-                NavigationLink(destination: DetailView(job)) {
-                    HStack {
-                        Text(job.jobTitle)
-                        Text(job.companyName)
-                        Text(job.location)
-                    }
-                }.navigationTitle("Open Positions")
-            }
-        }.onAppear(perform: {
+            JobsListView(jobs: csvDataManager.jobs)
+                .padding(.leading, -10)
+                .padding(.trailing, -10)
+        }
+        .background(Color(.clear)) // Set a background color
+        .onAppear(perform: {
             csvDataManager.loadJobs(from: "jobsMock")
         })
-        //        NavigationView {
-        //            List {
-        //                ForEach(items) { item in
-        //                    NavigationLink {
-        //                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-        //                    } label: {
-        //                        Text(item.timestamp!, formatter: itemFormatter)
-        //                    }
-        //                }
-        //                .onDelete(perform: deleteItems)
-        //            }
-        //            .toolbar {
-        //                ToolbarItem(placement: .navigationBarTrailing) {
-        //                    EditButton()
-        //                }
-        //                ToolbarItem {
-        //                    Button(action: addItem) {
-        //                        Label("Add Item", systemImage: "plus")
-        //                    }
-        //                }
-        //            }
-        //            Text("Select an item")
-        //        }
     }
-    
-//    let jobs = [
-//        Job(jobTitle: "janitor", companyName: "Clean Me", location: "San Francisco", jobDescription: "clean my shit", requirements: "must be thorough"),
-//        Job(jobTitle: "SWD", companyName: "CodingAI", location: "San Jose", jobDescription: "program me a robot", requirements: "never sleep biatch!")
-//    ]
     
     private func addItem() {
         withAnimation {
@@ -103,4 +71,47 @@ private let itemFormatter: DateFormatter = {
 
 #Preview {
     ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+}
+
+struct JobsListView: View {
+    var jobs: [Job]
+    var body: some View {
+        List(jobs) { job in
+            let detailViewModel = DetailViewModel(job)
+            NavigationLink(destination: DetailView(viewModel: detailViewModel)) {
+                HStack {
+                    GeometryReader { geometry in
+                        HStack {
+                            // Title
+                            Text(job.jobTitle)
+                                .font(.custom("Courier New", size: 16))
+                                .bold()
+                                .frame(width: geometry.size.width * 0.45, alignment: .leading)
+                                .lineLimit(2)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.leading, -15)
+                            
+                            // Company Name
+                            Text(job.companyName)
+                                .font(.custom("Courier New", size: 12))
+                                .frame(width: geometry.size.width * 0.25, alignment: .leading)
+                                .lineLimit(2)
+                                .padding(.leading, 0)
+                            
+                            // Location
+                            Text(job.location)
+                                .font(.custom("Courier New", size: 12))
+                                .frame(width: geometry.size.width * 0.3, alignment: .leading)
+                                .lineLimit(2)
+                        }
+                        .frame(height: geometry.size.height) // Constrain GeometryReader height to avoid expansion
+                    }
+                    .frame(height: 35) // Set a fixed height for the entire HStack to constrain the GeometryReader
+                    
+                }
+            }
+            .navigationTitle("Open Positions")
+            .padding(.trailing, -15)
+        }
+    }
 }
