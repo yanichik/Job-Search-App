@@ -2,7 +2,7 @@
 //  UnibuiAssignmentTests.swift
 //  UnibuiAssignmentTests
 //
-//  Created by admin on 9/12/24.
+//  Created by Yan Brunshteyn on 9/12/24.
 //
 
 import XCTest

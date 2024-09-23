@@ -2,7 +2,7 @@
 //  Job.swift
 //  UnibuiAssignment
 //
-//  Created by admin on 9/16/24.
+//  Created by Yan Brunshteyn on 9/16/24.
 //
 
 import Foundation
@@ -25,9 +25,6 @@ let support = ["support"]
 let hr = ["human", "hr"]
 
 struct Job: Identifiable {
-//    var id: String {
-//        return "\(jobTitle) + \(companyName)"
-//    }
     var id: Int
     let jobTitle: String
     let companyName: String

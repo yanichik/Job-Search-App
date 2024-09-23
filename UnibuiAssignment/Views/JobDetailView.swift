@@ -2,18 +2,18 @@
 //  JobDetailView.swift
 //  UnibuiAssignment
 //
-//  Created by admin on 9/17/24.
+//  Created by Yan Brunshteyn on 9/17/24.
 //
 
 import SwiftUI
 
 struct JobDetailView: View {
     
-    @StateObject private var viewModel: DetailViewModel
-    @State private var displayDescription: Bool = false
+    @StateObject private var viewModel: JobDetailViewModel
+    @State private var displayDescription: Bool = true
     @State private var displayRequirements: Bool = false
     
-    init(viewModel: DetailViewModel) {
+    init(viewModel: JobDetailViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     
@@ -26,18 +26,20 @@ struct JobDetailView: View {
                         // Image placed in the center of the background
                         JobImageView(with: viewModel)
                     }
-                    Text(viewModel.job!.companyName).padding(.top, -60)
-//                    Text("Company: \(viewModel.job!.companyName)").padding(.top, -60)
+//                    Text(viewModel.job!.companyName).padding(.top, -60)
+                    Text("Apply to: \(viewModel.job!.companyName)").padding(.top, -60)
                     HStack {
                         MoreDetailsButton(labelText: "Description", geometry: navStackGeometry, action: {
-                            displayDescription = true // Display description
+//                            displayDescription = true // Display description
+                            displayDescription.toggle() // Display description
                             displayRequirements = false // Hide requirements if description is shown
-                        }, isHighlighted: displayDescription) // Pass highlight state
+                        }, isHighlighted: $displayDescription) // Pass highlight state
 
                         MoreDetailsButton(labelText: "Requirements", geometry: navStackGeometry, action: {
-                            displayRequirements = true // Display requirements
+//                            displayRequirements = true // Display requirements
+                            displayRequirements.toggle() // Display requirements
                             displayDescription = false // Hide description if requirements are shown
-                        }, isHighlighted: displayRequirements) // Pass highlight state
+                        }, isHighlighted: $displayRequirements) // Pass highlight state
                     }
 
                     .frame(width: navStackGeometry.size.width, alignment: .center)
@@ -68,12 +70,12 @@ struct JobDetailView: View {
 }
 
 #Preview {
-    JobDetailView(viewModel: DetailViewModel(Job(id: 0, jobTitle: "Human Resources", companyName: "Janitorial Services Inc.", location: "San Francisco", jobDescription: "Find the best", requirements: "Be thorough")))
+    JobDetailView(viewModel: JobDetailViewModel(Job(id: 0, jobTitle: "Human Resources", companyName: "Janitorial Services Inc.", location: "San Francisco", jobDescription: "Find the best", requirements: "Be thorough")))
 }
 
 struct JobTitleView: View {
-    let viewModel: DetailViewModel
-    init(with viewModel: DetailViewModel) {
+    let viewModel: JobDetailViewModel
+    init(with viewModel: JobDetailViewModel) {
         self.viewModel = viewModel
     }
     var body: some View {
@@ -86,9 +88,9 @@ struct JobTitleView: View {
 }
 
 struct ImageBackgroundView: View {
-    let viewModel: DetailViewModel
+    let viewModel: JobDetailViewModel
     let geometry: GeometryProxy
-    init(viewModel: DetailViewModel, geometry: GeometryProxy) {
+    init(viewModel: JobDetailViewModel, geometry: GeometryProxy) {
         self.viewModel = viewModel
         self.geometry = geometry
     }
@@ -113,8 +115,8 @@ struct ImageBackgroundView: View {
 }
 
 struct JobImageView: View {
-    let viewModel: DetailViewModel
-    init(with viewModel: DetailViewModel) {
+    let viewModel: JobDetailViewModel
+    init(with viewModel: JobDetailViewModel) {
         self.viewModel = viewModel
     }
     var body: some View {
@@ -145,13 +147,13 @@ struct MoreDetailsButton: View {
     let labelText: String
     let geometry: GeometryProxy
     let action: () -> Void // Closure for button action
-    let isHighlighted: Bool // New parameter to indicate if the button is highlighted
+    @Binding var isHighlighted: Bool // New parameter to indicate if the button is highlighted
     
-    init(labelText: String, geometry: GeometryProxy, action: @escaping () -> Void, isHighlighted: Bool = false) {
+    init(labelText: String, geometry: GeometryProxy, action: @escaping () -> Void, isHighlighted: Binding<Bool>) {
         self.labelText = labelText
         self.geometry = geometry
         self.action = action
-        self.isHighlighted = isHighlighted
+        self._isHighlighted = isHighlighted
     }
     
     var body: some View {

@@ -13,7 +13,7 @@ struct UnibuiAssignmentApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            OpenJobsView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

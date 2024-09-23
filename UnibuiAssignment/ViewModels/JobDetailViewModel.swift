@@ -2,7 +2,7 @@
 //  JobDetailViewModel.swift
 //  UnibuiAssignment
 //
-//  Created by admin on 9/19/24.
+//  Created by Yan Brunshteyn on 9/19/24.
 //
 
 import Foundation

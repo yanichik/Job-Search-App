@@ -2,7 +2,7 @@
 //  Persistence.swift
 //  UnibuiAssignment
 //
-//  Created by admin on 9/12/24.
+//  Created by Yan Brunshteyn on 9/12/24.
 //
 
 import CoreData

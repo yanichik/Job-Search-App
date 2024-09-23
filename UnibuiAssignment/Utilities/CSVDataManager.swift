@@ -2,30 +2,39 @@
 //  CSVDataManager.swift
 //  UnibuiAssignment
 //
-//  Created by admin on 9/16/24.
+//  Created by Yan Brunshteyn on 9/16/24.
 //
 
 import Foundation
+
+enum CSVError: Error {
+    case FILE_READING
+    case FILE_PATH
+    case PARSING_NUMBER_COLUMNS
+    case PARSING_OTHER
+}
 
 class CSVDataManager: ObservableObject {
     
     @Published var jobs = [Job]()
     
-    func fetchCSVData(from file: String) -> String? {
+    func fetchCSVData(from file: String) -> Result<String, CSVError> {
         if let file = Bundle.main.path(forResource: file, ofType: "csv") {
             do {
                 let fileContent = try String(contentsOfFile: file)
-                return fileContent
-            } catch let error {
-                print(error)
+                return .success(fileContent)
+            } catch {
+                return .failure(.FILE_READING)
             }
         }
-        return nil
+        return .failure(.FILE_PATH)
     }
     // TODO: Refactor
-    func parseCSVData(_ csvContent: String) -> [[String]]{
+    func parseCSVData(_ csvContent: String) -> Result<[[String]], CSVError> {
         var parsedCSVData = [[String]]()
         let rows = csvContent.components(separatedBy: "\n")
+        let expectedColumnCount = 5 // Adjust to the number of columns expected
+
         let pattern = "\"([^\"]*)\""
         for row in rows {
             guard !row.isEmpty else { continue }
@@ -94,37 +103,36 @@ class CSVDataManager: ObservableObject {
                             }
                         }
                     }
+                    if columns.count != expectedColumnCount {
+                        return .failure(.PARSING_NUMBER_COLUMNS) // Trigger parsing error if column count is incorrect
+                    }
                     parsedCSVData.append(columns)
                 } catch {
-                    print(error)
+                    return .failure(.PARSING_OTHER)
                 }
             }
         }
-        return parsedCSVData
+        return .success(parsedCSVData)
     }
-    
-    /*
-     [id, jobTitle, companyName, location, jobDescription, requirements]
-     var id: String {
-     return "\(jobTitle) + \(companyName)"
-     }
-     let jobTitle: String
-     let companyName: String
-     let location: String
-     let jobDescription: String
-     let requirements: String
-     */
-    
-    //    func loadJobs(_ parsedCSVData: [[String]]) {
-    func loadJobs(from file: String) {
-        if let csvContent = fetchCSVData(from: file) {
-            let parsedCSVData = parseCSVData(csvContent)
-            for (i, row) in parsedCSVData.dropFirst().enumerated() {
-                let job = Job(id: i, jobTitle: row[0], companyName: row[1], location: row[2], jobDescription: row[3], requirements: row[4])
-                DispatchQueue.main.async {
-                    self.jobs.append(job)
+    func loadJobs(from file: String) -> CSVError? {
+        let result = fetchCSVData(from: file)
+        switch result {
+        case .success(let csvContent):
+            let result = parseCSVData(csvContent)
+            switch result {
+            case .success(let parsedCSVData):
+                for (i, row) in parsedCSVData.dropFirst().enumerated() {
+                    let job = Job(id: i, jobTitle: row[0], companyName: row[1], location: row[2], jobDescription: row[3], requirements: row[4])
+                    DispatchQueue.main.async {
+                        self.jobs.append(job)
+                    }
                 }
+            case .failure(let error):
+                return error
             }
+            return nil
+        case .failure(let error):
+            return error
         }
     }
 }
