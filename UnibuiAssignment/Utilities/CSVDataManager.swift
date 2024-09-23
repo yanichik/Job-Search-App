@@ -29,12 +29,11 @@ class CSVDataManager: ObservableObject {
         }
         return .failure(.FILE_PATH)
     }
-    // TODO: Refactor
+    
     func parseCSVData(_ csvContent: String) -> Result<[[String]], CSVError> {
         var parsedCSVData = [[String]]()
         let rows = csvContent.components(separatedBy: "\n")
-        let expectedColumnCount = 5 // Adjust to the number of columns expected
-
+        let expectedColumnCount = 5 // Expected number of columns in jobs data
         let pattern = "\"([^\"]*)\""
         for row in rows {
             guard !row.isEmpty else { continue }
@@ -46,7 +45,6 @@ class CSVDataManager: ObservableObject {
                     var columns = [String]()
                     let regex = try NSRegularExpression(pattern: pattern)
                     let nsString = row as NSString
-                    // let match = String(describing: regex.firstMatch(in: row, range: NSRange(location: 0, length: nsString.length)))
                     let matches = regex.matches(in: row, range: NSRange(location: 0, length: nsString.length))
                     for (i, match) in matches.enumerated() {
                         // match start range - if first range:
@@ -72,7 +70,6 @@ class CSVDataManager: ObservableObject {
                                 columns.append(contentsOf: components)
                             }
                         } else {
-                            // if not first range:
                             // if last range:
                             // separate components by "," with substring that starts at end of this match until end of row
                             if i == matches.count - 1 {
@@ -94,7 +91,6 @@ class CSVDataManager: ObservableObject {
                             } else {
                                 // else :
                                 // separate components by "," with substring that starts at end of previous match until start of this one
-                                // add match
                                 let startIndex = row.index(row.startIndex, offsetBy: matches[i-1].range.location + match.range.length)
                                 let endIndex = row.index(row.startIndex, offsetBy: match.range.location)
                                 let subString = row[startIndex..<endIndex]
@@ -123,9 +119,7 @@ class CSVDataManager: ObservableObject {
             case .success(let parsedCSVData):
                 for (i, row) in parsedCSVData.dropFirst().enumerated() {
                     let job = Job(id: i, jobTitle: row[0], companyName: row[1], location: row[2], jobDescription: row[3], requirements: row[4])
-                    DispatchQueue.main.async {
-                        self.jobs.append(job)
-                    }
+                    self.jobs.append(job)
                 }
             case .failure(let error):
                 return error

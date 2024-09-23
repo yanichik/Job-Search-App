@@ -26,39 +26,35 @@ struct JobDetailView: View {
                         // Image placed in the center of the background
                         JobImageView(with: viewModel)
                     }
-//                    Text(viewModel.job!.companyName).padding(.top, -60)
                     Text("Apply to: \(viewModel.job!.companyName)").padding(.top, -60)
                     HStack {
                         MoreDetailsButton(labelText: "Description", geometry: navStackGeometry, action: {
-//                            displayDescription = true // Display description
-                            displayDescription.toggle() // Display description
+                            displayDescription.toggle() // Toggle description
                             displayRequirements = false // Hide requirements if description is shown
                         }, isHighlighted: $displayDescription) // Pass highlight state
-
+                        
                         MoreDetailsButton(labelText: "Requirements", geometry: navStackGeometry, action: {
-//                            displayRequirements = true // Display requirements
-                            displayRequirements.toggle() // Display requirements
+                            displayRequirements.toggle() // Toggle requirements
                             displayDescription = false // Hide description if requirements are shown
                         }, isHighlighted: $displayRequirements) // Pass highlight state
                     }
-
+                    
                     .frame(width: navStackGeometry.size.width, alignment: .center)
                     .padding(.bottom, 20)
                     
-                    // Job description positioned at the bottom of the purple background, aligned left
+                    // Show job description if turned on
                     if displayDescription == true {
                         Text(viewModel.job!.jobDescription)
                     }
+                    // Show requirements if turned on
                     if displayRequirements == true {
                         Text(viewModel.job!.requirements)
                     }
-//                    Spacer() // Push content to fill the rest of the screen
                     Spacer() // Push content to fill the rest of the screen
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .onChange(of: viewModel.topSafeAreaHeight) { newSafeAreaHeight in
                     // Ensure the layout updates based on new safe area insets
-                    print("Safe area height updated: \(newSafeAreaHeight)")
                     viewModel.updateTopSafeAreaHeight(geometry: nil, newHeight: newSafeAreaHeight)
                 }
                 .onAppear {
@@ -67,10 +63,6 @@ struct JobDetailView: View {
             }
         }
     }
-}
-
-#Preview {
-    JobDetailView(viewModel: JobDetailViewModel(Job(id: 0, jobTitle: "Human Resources", companyName: "Janitorial Services Inc.", location: "San Francisco", jobDescription: "Find the best", requirements: "Be thorough")))
 }
 
 struct JobTitleView: View {
@@ -127,15 +119,13 @@ struct JobImageView: View {
                 .frame(width: viewModel.imageWidth, height: viewModel.imageHeight)
                 .background(
                     GeometryReader { geometry in
-                        Color.clear
-                            .onAppear {
-                                viewModel.updateImageSize(geometry)
-                                print("GeometryReader size: \(geometry.size.height)")
-                            }
-                            .onChange(of: geometry.size) { newSize in
-                                // Re-trigger a layout when the size changes
-                                viewModel.updateImageSize(geometry)
-                            }
+                        Color.clear.onAppear {
+                            viewModel.updateImageSize(geometry)
+                        }
+                        .onChange(of: geometry.size) { newSize in
+                            // Re-trigger a layout when the size changes
+                            viewModel.updateImageSize(geometry)
+                        }
                     }
                 )
             JobTitleView(with: viewModel)
@@ -147,7 +137,7 @@ struct MoreDetailsButton: View {
     let labelText: String
     let geometry: GeometryProxy
     let action: () -> Void // Closure for button action
-    @Binding var isHighlighted: Bool // New parameter to indicate if the button is highlighted
+    @Binding var isHighlighted: Bool // Indicates if the button is highlighted
     
     init(labelText: String, geometry: GeometryProxy, action: @escaping () -> Void, isHighlighted: Binding<Bool>) {
         self.labelText = labelText
@@ -159,16 +149,20 @@ struct MoreDetailsButton: View {
     var body: some View {
         Button(action: action) {
             Text(labelText)
-                .foregroundColor(isHighlighted ? .white : .black) // Change text color based on highlight
+                .foregroundColor(isHighlighted ? .white : .black) // Text color per highlight status
         }
         .frame(width: geometry.size.width * 0.4, alignment: .center)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.gray, lineWidth: 1) // Border color and width
+                .stroke(Color.gray, lineWidth: 1)
         )
-        .background(isHighlighted ? Color.purple.opacity(0.4) : Color.clear).cornerRadius(8) // Change background color
+        .background(isHighlighted ? Color.purple.opacity(0.4) : Color.clear) // Background color per highlight status
+        .cornerRadius(8)
         .font(.custom("Courier New", size: 16))
         .bold()
     }
 }
 
+#Preview {
+    JobDetailView(viewModel: JobDetailViewModel(Job(id: 0, jobTitle: "Janitor", companyName: "Janitorial Services Inc.", location: "San Francisco", jobDescription: "Find the best", requirements: "Be thorough")))
+}

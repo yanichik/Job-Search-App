@@ -8,65 +8,38 @@
 import SwiftUI
 
 struct OpenJobsView: View {
-    @ObservedObject var csvDataManager = CSVDataManager()
-    @State private var displayErrorAlert = false
-    @State private var errorMessage: String?
-    @State private var searchQuery = ""
-    @State private var likedJobs: Set<Int> = []
     
-    var filteredJobs: [Job] {
-        // Filter jobs based on the search query
-        if searchQuery.isEmpty {
-            return csvDataManager.jobs
-        } else {
-            return csvDataManager.jobs.filter { job in
-                job.jobTitle.localizedCaseInsensitiveContains(searchQuery)
-            }
-        }
+    @StateObject private var viewModel: OpenJobsViewModel
+    
+    init(viewModel: OpenJobsViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
         NavigationStack {
             // Search Bar
-            TextField("Search by job title:", text: $searchQuery)
+            TextField("Search by job title:", text: $viewModel.searchQuery)
                 .padding(8)
                 .background(Color(.systemGray6))
                 .cornerRadius(8)
                 .padding()
-            JobsListView(jobs: filteredJobs, likedJobs: $likedJobs)
+                .onChange(of: viewModel.searchQuery) {
+                    viewModel.filterJobs()
+                }
+            JobsListView(jobs: viewModel.filteredJobs, likedJobs: $viewModel.likedJobs)
                 .padding(.leading, -10)
                 .padding(.trailing, -10)
         }
         .background(Color(.clear)) // Set a background color
-        .onAppear(perform: { loadJobs() })
-        .alert("Error Loading Jobs", isPresented: $displayErrorAlert, actions: {
+        .onAppear(perform: { viewModel.loadJobs() })
+        .alert("Error Loading Jobs", isPresented: $viewModel.displayErrorAlert, actions: {
             Button("OK", role: .cancel) { }
         }, message: {
-            Text(errorMessage ?? "Unkown Error Occurred")
+            Text(viewModel.errorMessage ?? "Unkown Error Occurred")
         })
-    }
-    
-    private func loadJobs() {
-        let error = csvDataManager.loadJobs(from: "jobsMock")
-        if let error = error {
-            switch error {
-            case .FILE_PATH:
-                errorMessage = "Incorrect File Path."
-            case .FILE_READING:
-                errorMessage = "Cannot Read File."
-            case .PARSING_NUMBER_COLUMNS:
-                errorMessage = "Parsing Error: Incorrect Number of Columns."
-            case .PARSING_OTHER:
-                errorMessage = "Parsing Error: Data Formatted Incorrect."
-            }
-            displayErrorAlert = true
-        }
     }
 }
 
-#Preview {
-    OpenJobsView()
-}
 
 struct JobsListView: View {
     var jobs: [Job]
@@ -146,4 +119,8 @@ struct HeaderView: View {
         .font(.custom("Courier new", size: 18))
         .bold()
     }
+}
+
+#Preview {
+    OpenJobsView(viewModel: OpenJobsViewModel())
 }

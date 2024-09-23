@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
 
 class JobDetailViewModel: ObservableObject {
-    @Published var topSafeAreaHeight: CGFloat = 0 // Store the top safe area height
+    @Published var topSafeAreaHeight: CGFloat = 0
     @Published var image: String = ""
-    @Published var imageHeight: CGFloat = 150 // Store the image height
-    @Published var imageWidth: CGFloat = 150  // Store the image width
+    @Published var imageHeight: CGFloat = 150
+    @Published var imageWidth: CGFloat = 150
     @Published var imageOverlayWidth: CGFloat = 5
     @Published var dividerHeight: CGFloat = 2
     @Published var dividerPadding: CGFloat = 22

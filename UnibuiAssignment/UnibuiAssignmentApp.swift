@@ -12,7 +12,7 @@ struct UnibuiAssignmentApp: App {
 
     var body: some Scene {
         WindowGroup {
-            OpenJobsView()
+            OpenJobsView(viewModel: OpenJobsViewModel())
         }
     }
 }
