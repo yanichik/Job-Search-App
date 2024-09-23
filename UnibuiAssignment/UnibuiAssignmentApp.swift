@@ -9,12 +9,10 @@ import SwiftUI
 
 @main
 struct UnibuiAssignmentApp: App {
-    let persistenceController = PersistenceController.shared
 
     var body: some Scene {
         WindowGroup {
             OpenJobsView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
