@@ -1,5 +1,5 @@
 //
-//  DetailViewModel.swift
+//  JobDetailViewModel.swift
 //  UnibuiAssignment
 //
 //  Created by admin on 9/19/24.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class DetailViewModel: ObservableObject {
+class JobDetailViewModel: ObservableObject {
     @Published var topSafeAreaHeight: CGFloat = 0 // Store the top safe area height
     @Published var image: String = ""
     @Published var imageHeight: CGFloat = 150 // Store the image height
